@@ -60,7 +60,7 @@ const Fireapp = () => {
           newUserInfo.success = true; // message of user created successfuly ;
           setUser(newUserInfo);
 
-          // ...
+        
         })
         .catch(error => {
           const newUserInfo = {...user};
