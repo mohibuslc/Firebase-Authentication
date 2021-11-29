@@ -21,6 +21,8 @@ const auth = getAuth(firebaseConfig);
 const Fireapp = () => {
   const provider = new GoogleAuthProvider();
 
+  const [newUser , setNewUser]=useState(false);
+
   const [user, setUser] = useState({
 
 
@@ -208,11 +210,12 @@ const Fireapp = () => {
       }
       <h1 className="Text"> Our  Authintication System</h1>
 
+      <input type ="Checkbox" name ="newUser" onChange = {()=>setNewUser(!newUser)}/>
 
-
+      <label htmlFor ="newUser">New user SignIn</label>
       <form onSubmit={handleFormSubmit}>
 
-        <input type="text" name="Email" onBlur={handleChange} placeholder="Enter Your Email" required />
+        {newUser && <input type="text" name="Email" onBlur={handleChange} placeholder="Enter Your Email" required />}
 
         <br />
         <br />
