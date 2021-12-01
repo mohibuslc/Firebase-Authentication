@@ -21,7 +21,7 @@ const auth = getAuth(firebaseConfig);
 const Fireapp = () => {
   const provider = new GoogleAuthProvider();
 
-  const [newUser , setNewUser]=useState(false);
+  const [newUser, setNewUser] = useState(false); // create for state useing of toggle . 
 
   const [user, setUser] = useState({
 
@@ -34,11 +34,12 @@ const Fireapp = () => {
 
     Password: "",
 
-    error:"", // use for error message ;
+    error: "", // use for error message ;
 
-    success :"", // use for success message ;
+    success: "", // use for success message ;
 
     photo: ""
+
   });
 
   const handleFormSubmit = (e) => {
@@ -57,16 +58,19 @@ const Fireapp = () => {
           // Signed in 
           //const user = userCredential.user;
 
-          const newUserInfo ={...user};
-          newUserInfo.error =''; // error message make null ;
+          const newUserInfo = { ...user };
+          newUserInfo.error = ''; // error message make null ;
           newUserInfo.success = true; // message of user created successfuly ;
           setUser(newUserInfo);
 
-        //...
-        
+          //...
+
         })
+
+
+
         .catch(error => {
-          const newUserInfo = {...user};
+          const newUserInfo = { ...user };
 
           newUserInfo.error = error.message;
           newUserInfo.success = false;
@@ -74,14 +78,14 @@ const Fireapp = () => {
 
         });
 
-      
+
 
 
 
 
 
     }
-    e.preventDefault();
+    e.preventDefault(); // using this command for not going refreash Enter Webpage 
 
   }
 
@@ -173,7 +177,7 @@ const Fireapp = () => {
           userInfo: false,
           name: "",
           email: "",
-         
+
           photo: ""
 
         }
@@ -187,8 +191,11 @@ const Fireapp = () => {
 
   return (
     <div className="Info" >
+
+    
       {
-        user.userInfo ? <button onClick={handlesignoutClick}>Sign out</button> :
+        user.userInfo ? <button onClick={handlesignoutClick}>Sign out</button> : // button make sign-in and make  sign out ;
+        
           <button onClick={handlesigninClick}>Sign-In</button>
 
       }
@@ -210,9 +217,9 @@ const Fireapp = () => {
       }
       <h1 className="Text"> Our  Authintication System</h1>
 
-      <input type ="Checkbox" name ="newUser" onChange = {()=>setNewUser(!newUser)}/>
+      <input type="Checkbox" name="newUser" onChange={() => setNewUser(!newUser)} />
 
-      <label htmlFor ="newUser">New user SignIn</label>
+      <label htmlFor="newUser">New user SignIn</label>
       <form onSubmit={handleFormSubmit}>
 
         {newUser && <input type="text" name="Email" onBlur={handleChange} placeholder="Enter Your Email" required />}
@@ -230,8 +237,8 @@ const Fireapp = () => {
 
       </form>
 
-      <p style={{color:'red'}}>{user.error}</p>
-      { user.success && <p style={{color:'green'}}>User created Successfuly </p>}
+      <p style={{ color: 'red' }}>{user.error}</p>
+      { user.success && <p style={{ color: 'green' }}>User created Successfuly </p>}
     </div>
   );
 
