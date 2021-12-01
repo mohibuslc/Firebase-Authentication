@@ -195,7 +195,7 @@ const Fireapp = () => {
     
       {
         user.userInfo ? <button onClick={handlesignoutClick}>Sign out</button> : // button make sign-in and make  sign out ;
-        
+
           <button onClick={handlesigninClick}>Sign-In</button>
 
       }
