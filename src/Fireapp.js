@@ -10,7 +10,7 @@ import { useState } from "react";
 import './Fireapp.css';
 import { signOut } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import { updateProfile } from "firebase/auth"
 
 
 
@@ -54,7 +54,7 @@ const Fireapp = () => {
 
       createUserWithEmailAndPassword(auth, user.Email, user.Password)
 
-        .then((userCredential) => {
+        .then(res => {
           // Signed in 
           //const user = userCredential.user;
 
@@ -62,6 +62,10 @@ const Fireapp = () => {
           newUserInfo.error = ''; // error message make null ;
           newUserInfo.success = true; // message of user created successfuly ;
           setUser(newUserInfo);
+          updateUserInfo(user.name);
+          console.log('user info ', res.user);
+
+
 
           //...
 
@@ -77,12 +81,6 @@ const Fireapp = () => {
           setUser(newUserInfo);
 
         });
-
-
-
-
-
-
 
     }
     e.preventDefault(); // using this command for not going refreash Enter Webpage 
@@ -188,11 +186,25 @@ const Fireapp = () => {
 
       })
   }
+  const updateUserInfo = name => {
 
+
+
+    updateProfile(auth.currentUser, {
+      displayName: name
+    }).then(function () {
+      // Profile updated!
+      // ...
+    }).catch(function (error) {
+      // An error occurred
+      // ...
+      console.log(error)
+    });
+  }
   return (
     <div className="Info" >
 
-    
+
       {
         user.userInfo ? <button onClick={handlesignoutClick}>Sign out</button> : // button make sign-in and make  sign out ;
 
@@ -222,8 +234,10 @@ const Fireapp = () => {
       <label htmlFor="newUser">New user SignIn</label>
       <form onSubmit={handleFormSubmit}>
 
-        {newUser && <input type="text" name="Email" onBlur={handleChange} placeholder="Enter Your Email" required />}
+        {newUser && <input type="text" name="name" onBlur={handleChange} placeholder="Enter Your Name" required />}
 
+        <br />
+        <input type="text" name="Email" onBlur={handleChange} placeholder="Enter Your Email" required />
         <br />
         <br />
 
@@ -233,7 +247,7 @@ const Fireapp = () => {
         <br />
 
 
-        <input type="Submit" value="submit" />
+        <input type="Submit" value={newUser ? " Sign-up" : "Sign-in"} />
 
       </form>
 
