@@ -11,6 +11,8 @@ import './Fireapp.css';
 import { signOut } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { updateProfile } from "firebase/auth"
+import { FacebookAuthProvider } from "firebase/auth";
+import { GithubAuthProvider } from "firebase/auth";
 
 
 
@@ -20,6 +22,8 @@ const auth = getAuth(firebaseConfig);
 
 const Fireapp = () => {
   const provider = new GoogleAuthProvider();
+  const Fbprovider = new FacebookAuthProvider();
+  const Gitprovider = new GithubAuthProvider();
 
   const [newUser, setNewUser] = useState(false); // create for state useing of toggle . 
 
@@ -201,6 +205,68 @@ const Fireapp = () => {
       console.log(error)
     });
   }
+  const handleFbaccount = () => {
+
+    signInWithPopup(auth, Fbprovider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+
+        console.log('Facebook user Information After Login ', user);
+
+
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        //dir
+        //const credential = FacebookAuthProvider.credentialFromResult(result);
+       // const accessToken = credential.accessToken;
+
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        console.log(errorCode , errorMessage );
+
+        // The email of the user's account used.
+       // const email = error.email;
+        // The AuthCredential type that was used.
+        //const credential = FacebookAuthProvider.credentialFromError(error);
+
+        // ...
+      });
+  }
+
+  const handleGithub =()=>{
+
+    signInWithPopup(auth, Gitprovider)
+  .then((result) => {
+    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+    const credential = GithubAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+
+    // The signed-in user info.
+    const user = result.user;
+    setUser(user);
+    console.log('Git Hub User', user)
+
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.email;
+    // The AuthCredential type that was used.
+    const credential = GithubAuthProvider.credentialFromError(error);
+
+    console.log(email, credential, errorCode , errorMessage)
+    // ...
+  });
+
+
+  }
   return (
     <div className="Info" >
 
@@ -210,7 +276,15 @@ const Fireapp = () => {
 
           <button onClick={handlesigninClick}>Sign-In</button>
 
+
+
       }
+
+      <br />
+      <button onClick={handleFbaccount}>Login with Facebook</button>
+      <br/>
+      <button onClick = {handleGithub}>Login with GitHub</button>
+
       {
 
         user.userInfo &&
